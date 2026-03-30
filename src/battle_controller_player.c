@@ -28,6 +28,7 @@
 #include "new_menu_helpers.h"
 #include "pokemon_summary_screen.h"
 
+
 static void PlayerHandleGetMonData(void);
 static void PlayerHandleSetMonData(void);
 static void PlayerHandleSetRawMonData(void);
@@ -2394,12 +2395,14 @@ static void PlayerHandleMoveAnimation(void)
 
 static void PlayerDoMoveAnimation(void)
 {
+
     u16 move = gBattleBufferA[gActiveBattler][1] | (gBattleBufferA[gActiveBattler][2] << 8);
     u8 multihit = gBattleBufferA[gActiveBattler][11];
 
     switch (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState)
     {
     case 0:
+            
         if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute
          && !gBattleSpritesDataPtr->battlerData[gActiveBattler].flag_x8)
         {
@@ -2429,15 +2432,15 @@ static void PlayerDoMoveAnimation(void)
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 3;
         }
         break;
-    case 3:
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-        {
-            CopyAllBattleSpritesInvisibilities();
-            TrySetBehindSubstituteSpriteBit(gActiveBattler, gBattleBufferA[gActiveBattler][1] | (gBattleBufferA[gActiveBattler][2] << 8));
-            gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
-            PlayerBufferExecCompleted();
-        }
-        break;
+        case 3:
+            if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
+            {
+                CopyAllBattleSpritesInvisibilities();
+                TrySetBehindSubstituteSpriteBit(gActiveBattler, gBattleBufferA[gActiveBattler][1] | (gBattleBufferA[gActiveBattler][2] << 8));
+                gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
+                PlayerBufferExecCompleted();
+            }
+            break;
     }
 }
 

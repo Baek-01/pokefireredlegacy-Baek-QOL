@@ -1,5 +1,6 @@
 #include "global.h"
 #include "gflib.h"
+#include "battle_speed.h"
 
 #define MAX_SPRITE_COPY_REQUESTS 64
 
@@ -303,17 +304,26 @@ void ResetSpriteData(void)
 
 void AnimateSprites(void)
 {
-    u8 i;
-    for (i = 0; i < MAX_SPRITES; i++)
+    u8 extraIterations = 0;
+    u8 i, iter;
+    
+    // Only apply speedup during battles
+    if (gMain.inBattle)
+        extraIterations = GetBattleSpeedIterations();
+    
+    for (iter = 0; iter <= extraIterations; iter++)
     {
-        struct Sprite *sprite = &gSprites[i];
-
-        if (sprite->inUse)
+        for (i = 0; i < MAX_SPRITES; i++)
         {
-            sprite->callback(sprite);
+            struct Sprite *sprite = &gSprites[i];
 
             if (sprite->inUse)
-                AnimateSprite(sprite);
+            {
+                sprite->callback(sprite);
+
+                if (sprite->inUse)
+                    AnimateSprite(sprite);
+            }
         }
     }
 }

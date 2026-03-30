@@ -43,6 +43,7 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "trainer_control.h"
+#include "battle_speed.h"
 
 static void SpriteCB_UnusedDebugSprite(struct Sprite *sprite);
 static void HandleAction_UseMove(void);
@@ -2139,7 +2140,7 @@ void BeginBattleIntro(void)
 static void BattleMainCB1(void)
 {
     gBattleMainFunc();
-
+    
     for (gActiveBattler = 0; gActiveBattler < gBattlersCount; gActiveBattler++)
         gBattlerControllerFuncs[gActiveBattler]();
 }
