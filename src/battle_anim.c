@@ -10,6 +10,7 @@
 #include "m4a.h"
 #include "task.h"
 #include "constants/battle_anim.h"
+#include "battle_speed.h"
 
 /*
     This file handles the commands for the macros defined in
@@ -192,6 +193,26 @@ void ClearBattleAnimationVars(void)
 
 void DoMoveAnim(u16 move)
 {
+    // DEBUG: Make screen RED for 60 frames (1 second) when animation starts
+    static u16 flashCounter = 0;
+    
+    if (flashCounter > 0)
+    {
+        flashCounter--;
+        if (flashCounter == 0)
+        {
+            SetGpuReg(REG_OFFSET_BLDCNT, 0);
+            SetGpuReg(REG_OFFSET_BLDALPHA, 0);
+        }
+    }
+    else
+    {
+        SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0x10 | 0x00);
+        SetGpuReg(REG_OFFSET_BLDY, 16);
+        flashCounter = 60;  // Flash for 60 frames (1 second)
+    }
+    
     gBattleAnimAttacker = gBattlerAttacker;
     gBattleAnimTarget = gBattlerTarget;
     LaunchBattleAnimation(gBattleAnims_Moves, move, TRUE);
@@ -309,6 +330,10 @@ static void WaitAnimFrameCount(void)
 
 static void RunAnimScriptCommand(void)
 {
+    // DEBUG: Flash screen for every command processed
+    SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
+    SetGpuReg(REG_OFFSET_BLDALPHA, 0x10 | 0x10);
+    SetGpuReg(REG_OFFSET_BLDY, 16);
     do
     {
         sScriptCmdTable[sBattleAnimScriptPtr[0]]();

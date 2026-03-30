@@ -954,6 +954,15 @@ extern const u8 gText_FrameType[];
 extern const u8 gTextJP_Type[];
 extern const u8 gText_PickSwitchCancel[];
 
+//battle speed strings - Baek-01 extrapolating TeamAquasHideOut Overworld SpeedUp
+extern const u8 gText_BattleSpeed[];
+extern const u8 gText_Normal[];
+extern const u8 gText_BattleSpeedX2[];
+extern const u8 gText_BattleSpeedX4[];
+extern const u8 gText_BattleSpeedX8[];
+extern const u8 gText_BattleSpeedX16[];
+
+
 // evolution_scene
 extern const u8 gText_PkmnIsEvolving[];
 extern const u8 gText_CongratsPkmnEvolved[];
@@ -1563,5 +1572,7 @@ extern const u8 gMenuText_Move[];
 extern const u8 gText_MoveItemWhere[];
 extern const u8 gText_XsYAnd[];
 extern const u8 gText_XsYWereSwapped[];
+
+
 
 #endif //GUARD_STRINGS_H
